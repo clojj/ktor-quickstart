@@ -2,6 +2,14 @@ complete steps
 -
 https://ktor.io/quickstart/guides/api.html#jwt-authentication
 
+JWT from Auth0 server
+-
+https://ktor.io/servers/features/authentication/jwt.html
+
+https://github.com/AndreasVolkmann/ktor-auth-jwt-sample
+
+https://medium.com/slickteam/ktor-and-keycloak-authentication-with-openid-ecd415d7a62e
+
 ktor reload
 -
 "No ktor.deployment.watch patterns specified, automatic reload is not active"
@@ -20,6 +28,3 @@ ApplicationTest
 use the HttpClient
 -
 
-JWT from Auth0 server
--
-- with refresh
