@@ -1,0 +1,39 @@
+POST http://127.0.0.1:8080/login-register
+Content-Type: application/json
+
+{
+  "user": "u1",
+  "password": "test"
+}
+
+> {%
+client.assert(typeof response.body.token !== "undefined", "no token returned!")
+client.global.set("auth_token", response.body.token)
+ %}
+
+###
+POST http://127.0.0.1:8080/snippets
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "snippet": {
+    "text": "mysnippet"
+  }
+}
+
+###
+GET http://localhost:8080/snippets
+Accept: application/json
+
+###
+GET http://localhost:8080/
+Accept: application/text
+
+###
+GET http://localhost:8080/html-dsl
+Accept: application/html
+
+###
+GET http://localhost:8080/styles.css
+Accept: text/css
