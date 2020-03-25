@@ -12,14 +12,15 @@ client.global.set("auth_token", response.body.token)
  %}
 
 ###
-POST http://127.0.0.1:8080/snippets
+POST http://127.0.0.1:8080/snippets/new
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 {
   "snippet": {
     "text": "mysnippet"
-  }
+  },
+  "email": "my@ohmy.com"
 }
 
 ###

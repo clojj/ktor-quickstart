@@ -1,4 +1,11 @@
-complete steps
+Arrow's Validated
+-
+https://arrow-kt.io/docs/apidocs/arrow-core-data/arrow.core/-validated/
+
+DDD / package structure
+-
+
+complete steps (if interesting ?)
 -
 https://ktor.io/quickstart/guides/api.html#jwt-authentication
 

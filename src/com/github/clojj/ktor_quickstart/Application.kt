@@ -5,6 +5,8 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import com.fasterxml.jackson.databind.SerializationFeature
+import com.github.clojj.ktor_quickstart.model.Email.Companion.anEmail
+import com.github.clojj.ktor_quickstart.model.Snippet
 import io.ktor.application.Application
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
@@ -38,9 +40,9 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 
 val snippets: MutableList<Snippet> = Collections.synchronizedList(mutableListOf(
-    Snippet("snippet 000"),
-    Snippet("hello"),
-    Snippet("world")
+    Snippet("snippet 000", anEmail("000@b.com")),
+    Snippet("hello", anEmail("hello@b.com")),
+    Snippet("world", anEmail("world@b.com"))
 ))
 
 open class SimpleJWT(secret: String) {
@@ -49,7 +51,7 @@ open class SimpleJWT(secret: String) {
     fun sign(name: String): String = JWT.create().withClaim("name", name).sign(algorithm)
 }
 
-class User(val name: String, val password: String)
+data class User(val name: String, val password: String)
 
 object UserRepo {
     private val users: Map<String, User> =
@@ -111,15 +113,13 @@ fun Application.module(testing: Boolean = false) {
             }
 
             authenticate {
-                post {
+                post("/new") {
                     val postSnippet = call.receive<PostSnippet>()
-                    snippets += Snippet(
-                        postSnippet.snippet.text
-                    )
-                    call.respond(mapOf("OK" to true) + snippetsDto(
-                        snippets
-                    )
-                    )
+                    with(postSnippet) {
+                        snippets += Snippet(snippet.text, anEmail(email))
+                    }
+                    // TODO respond with validation errors
+                    call.respond(mapOf("OK" to true) + snippetsDto(snippets))
                 }
             }
         }
