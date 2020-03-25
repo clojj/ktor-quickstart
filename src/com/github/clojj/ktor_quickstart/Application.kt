@@ -38,6 +38,7 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 
 val snippets: MutableList<Snippet> = Collections.synchronizedList(mutableListOf(
+    Snippet("snippet 000"),
     Snippet("hello"),
     Snippet("world")
 ))
