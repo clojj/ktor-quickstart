@@ -28,7 +28,10 @@ import io.ktor.routing.post
 import io.ktor.routing.route
 import io.ktor.routing.routing
 import kotlinx.css.*
-import kotlinx.html.*
+import kotlinx.html.body
+import kotlinx.html.h1
+import kotlinx.html.li
+import kotlinx.html.ul
 import java.util.*
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -56,12 +59,7 @@ object UserRepo {
             .associateBy { it.name }
             .toMutableMap()
 
-    fun lookupUser(name: String): Option<User> {
-        return when (val user = users[name]) {
-            null -> Option.empty()
-            else -> Option.just(user)
-        }
-    }
+    fun lookupUser(name: String) = Option.fromNullable(users[name])
 }
 
 @Suppress("unused") // Referenced in application.conf
@@ -90,8 +88,7 @@ fun Application.module(testing: Boolean = false) {
 
         post("/login-register") {
             val loginRegister = call.receive<LoginRegister>()
-            val user =
-                UserRepo.lookupUser(loginRegister.user)
+            val user = UserRepo.lookupUser(loginRegister.user)
             user.fold({
                 call.respond(HttpStatusCode.Unauthorized, "Unknown user")
             }) {
